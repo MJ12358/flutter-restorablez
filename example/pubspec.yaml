@@ -1,0 +1,22 @@
+name: flutter_restorablez_example
+description: flutter_restorablez example app.
+publish_to: "none"
+
+version: 0.0.1+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_restorablez:
+    path: ../.
+
+dev_dependencies:
+  dart_lintz: 1.2.3
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
