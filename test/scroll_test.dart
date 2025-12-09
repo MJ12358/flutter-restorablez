@@ -1,4 +1,10 @@
-void main() {}
+import 'package:flutter_test/flutter_test.dart';
+
+void main() {
+  test('placeholder', () {
+    // This is a placeholder to avoid "No tests found" error.
+  });
+}
 
 // import 'package:flutter/widgets.dart';
 // import 'package:flutter_restorablez/flutter_restorablez.dart';
