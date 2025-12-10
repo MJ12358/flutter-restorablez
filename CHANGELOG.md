@@ -1,5 +1,9 @@
 # Flutter Restorablez
 
+## [0.0.6]
+
+- Remove `final` from `RestorableTabBar._controller`.
+
 ## [0.0.5]
 
 - Utilize `DefaultTabController` inside `RestorableTabBar`.

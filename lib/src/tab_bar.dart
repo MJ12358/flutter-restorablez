@@ -44,7 +44,7 @@ class RestorableTabBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _RestorableTabBarState extends State<RestorableTabBar> {
-  late final TabController _controller;
+  late TabController _controller;
 
   /// Prefix for [SharedPreferences] keys.
   static const String _keyPrefix = 'flutter_restorablez.tabbar';
