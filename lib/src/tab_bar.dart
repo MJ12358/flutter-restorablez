@@ -43,8 +43,7 @@ class RestorableTabBar extends StatefulWidget implements PreferredSizeWidget {
   }
 }
 
-class _RestorableTabBarState extends State<RestorableTabBar>
-    with SingleTickerProviderStateMixin {
+class _RestorableTabBarState extends State<RestorableTabBar> {
   late final TabController _controller;
 
   /// Prefix for [SharedPreferences] keys.
@@ -53,12 +52,17 @@ class _RestorableTabBarState extends State<RestorableTabBar>
   String get _prefsKey => '$_keyPrefix.${widget.id}';
 
   @override
-  void initState() {
-    super.initState();
-    _controller = TabController(
-      length: widget.tabs.length,
-      vsync: this,
-    );
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // MUST use didChangeDependencies for inherited widgets
+    final TabController? defaultController =
+        DefaultTabController.maybeOf(context);
+    if (defaultController == null) {
+      throw FlutterError(
+        'RestorableTabBar must be placed under a DefaultTabController.',
+      );
+    }
+    _controller = defaultController;
     _onInit();
   }
 
@@ -68,10 +72,10 @@ class _RestorableTabBarState extends State<RestorableTabBar>
         savedIndex >= 0 &&
         savedIndex < widget.tabs.length &&
         savedIndex != _controller.index) {
-      // Use animateTo for smooth transition to saved tab
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted && savedIndex < _controller.length) {
-          _controller.animateTo(savedIndex);
+          // Use jumpTo for immediate switch to saved tab
+          _controller.index = savedIndex;
         }
       });
     }
@@ -91,12 +95,6 @@ class _RestorableTabBarState extends State<RestorableTabBar>
     widget.onTap?.call(index);
     FocusManager.instance.primaryFocus?.unfocus();
     _saveIndex(index);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   @override

@@ -79,13 +79,27 @@ class _TabBarPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const RestorableTabBar(
-      id: 'example-tab-bar',
-      tabs: <Tab>[
-        Tab(text: 'Tab 1'),
-        Tab(text: 'Tab 2'),
-        Tab(text: 'Tab 3'),
-      ],
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          bottom: const RestorableTabBar(
+            id: 'example-tab-bar',
+            tabs: <Widget>[
+              Tab(text: 'Tab 1'),
+              Tab(text: 'Tab 2'),
+              Tab(text: 'Tab 3'),
+            ],
+          ),
+        ),
+        body: const TabBarView(
+          children: <Widget>[
+            Center(child: Text('Content for Tab 1')),
+            Center(child: Text('Content for Tab 2')),
+            Center(child: Text('Content for Tab 3')),
+          ],
+        ),
+      ),
     );
   }
 }
