@@ -36,22 +36,24 @@ class _RestorableScrollState extends State<RestorableScroll> {
   /// Prefix for [SharedPreferences] keys.
   static const String _keyPrefix = 'flutter_restorablez.scroll';
 
-  String get _prefsKey => '$_keyPrefix.${widget.id}';
+  String get _key => '$_keyPrefix.${widget.id}';
 
   @override
   void initState() {
     super.initState();
     _controller = ScrollController();
-    _initPrefs();
+    _onInit();
   }
 
-  Future<void> _initPrefs() async {
+  Future<void> _onInit() async {
     _prefs = await SharedPreferences.getInstance();
-    final double savedOffset = _prefs.getDouble(_prefsKey) ?? 0.0;
+    final double savedOffset = _getOffset();
 
     // Wait for first frame so controller has a valid position
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!_controller.hasClients || _controller.positions.isEmpty) {
+      if (!mounted ||
+          !_controller.hasClients ||
+          _controller.positions.isEmpty) {
         return;
       }
 
@@ -60,24 +62,30 @@ class _RestorableScrollState extends State<RestorableScroll> {
       _controller.jumpTo(offset);
 
       // Start listening to scroll end events after initialization
-      _controller.position.isScrollingNotifier.addListener(_saveOffset);
+      _controller.position.isScrollingNotifier.addListener(_setOffset);
     });
   }
 
-  void _saveOffset() {
+  double _getOffset() {
+    return _prefs.getDouble(_key) ?? 0.0;
+  }
+
+  void _setOffset() {
     // Only save when scrolling stops
-    if (!_controller.hasClients || !_controller.position.hasContentDimensions) {
+    if (!_controller.hasClients ||
+        !_controller.position.hasContentDimensions ||
+        _controller.position.isScrollingNotifier.value) {
       return;
     }
-    _prefs.setDouble(_prefsKey, _controller.offset);
+    _prefs.setDouble(_key, _controller.offset);
   }
 
   @override
   void dispose() {
     if (_controller.hasClients) {
-      _controller.position.isScrollingNotifier.removeListener(_saveOffset);
-      _controller.dispose();
+      _controller.position.isScrollingNotifier.removeListener(_setOffset);
     }
+    _controller.dispose();
     super.dispose();
   }
 

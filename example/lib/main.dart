@@ -81,8 +81,6 @@ class _BodyState extends State<_Body> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: In order for the page view to restore properly
-    // the controller needs be involved in the restoration.
     return OrientationBuilder(
       builder: (_, Orientation orientation) {
         switch (orientation) {

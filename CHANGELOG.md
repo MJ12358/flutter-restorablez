@@ -1,5 +1,11 @@
 # Flutter Restorablez
 
+## [0.0.8]
+
+- Optimize `RestorableScroll` to reduce disk writes.
+- Init `SharedPreferences` on initialization.
+- Optimize `SharedPreferences` getters.
+
 ## [0.0.7]
 
 - Add `RestorableBottomNavigationBar` and `RestorableNavigationRail`.

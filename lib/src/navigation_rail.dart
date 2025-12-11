@@ -83,11 +83,12 @@ class RestorableNavigationRail extends StatefulWidget {
 
 class _RestorableNavigationRailState extends State<RestorableNavigationRail> {
   late int _selectedIndex;
+  late SharedPreferences _prefs;
 
   /// Prefix for [SharedPreferences] keys.
   static const String _keyPrefix = 'flutter_restorablez.navigation';
 
-  String get _prefsKey => '$_keyPrefix.${widget.id}';
+  String get _key => '$_keyPrefix.${widget.id}';
 
   @override
   void initState() {
@@ -97,33 +98,33 @@ class _RestorableNavigationRailState extends State<RestorableNavigationRail> {
   }
 
   Future<void> _onInit() async {
-    final int? savedIndex = await _getIndex();
-    if (savedIndex != null &&
-        savedIndex >= 0 &&
-        savedIndex < widget.destinations.length &&
-        savedIndex != _selectedIndex) {
-      setState(() {
-        _selectedIndex = savedIndex;
-      });
-      widget.controller.jumpToPage(savedIndex);
+    _prefs = await SharedPreferences.getInstance();
+    final int? savedIndex = _getIndex();
+    if (savedIndex == null ||
+        savedIndex <= 0 ||
+        savedIndex >= widget.destinations.length ||
+        savedIndex == _selectedIndex) {
+      return;
     }
+    setState(() {
+      _selectedIndex = savedIndex;
+    });
+    widget.controller.jumpToPage(savedIndex);
   }
 
-  Future<int?> _getIndex() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getInt(_prefsKey);
+  int? _getIndex() {
+    return _prefs.getInt(_key);
   }
 
-  Future<void> _saveIndex(int index) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(_prefsKey, index);
+  Future<void> _setIndex(int index) async {
+    await _prefs.setInt(_key, index);
   }
 
   void _onDestinationSelected(int index) {
     setState(() {
       _selectedIndex = index;
     });
-    _saveIndex(index);
+    _setIndex(index);
     widget.onDestinationSelected?.call(index);
   }
 
