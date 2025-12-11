@@ -2,8 +2,8 @@ part of flutter_restorablez;
 
 /// A function that builds a widget with a [ScrollController].
 typedef RestorableScrollBuilder = Widget Function(
-  BuildContext,
-  ScrollController,
+  BuildContext context,
+  ScrollController controller,
 );
 
 /// {@template flutter_restorablez.Scroll}

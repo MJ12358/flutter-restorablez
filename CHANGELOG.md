@@ -1,5 +1,9 @@
 # Flutter Restorablez
 
+## [0.0.9]
+
+- Use named params for typedef.
+
 ## [0.0.8]
 
 - Optimize `RestorableScroll` to reduce disk writes.
