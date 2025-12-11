@@ -25,11 +25,11 @@ class RestorableScroll extends StatefulWidget {
   final RestorableScrollBuilder builder;
 
   @override
-  RestorableScrollState createState() => RestorableScrollState();
+  _RestorableScrollState createState() => _RestorableScrollState();
 }
 
 /// State for [RestorableScroll].
-class RestorableScrollState extends State<RestorableScroll> {
+class _RestorableScrollState extends State<RestorableScroll> {
   late final ScrollController _controller;
   late final SharedPreferences _prefs;
 

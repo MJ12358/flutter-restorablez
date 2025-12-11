@@ -74,7 +74,7 @@ class _RestorableTabBarState extends State<RestorableTabBar> {
         savedIndex != _controller.index) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted && savedIndex < _controller.length) {
-          // Use jumpTo for immediate switch to saved tab
+          // Use index assignment for immediate switch to saved tab
           _controller.index = savedIndex;
         }
       });

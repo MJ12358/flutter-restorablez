@@ -1,5 +1,11 @@
 # Flutter Restorablez
 
+## [0.0.7]
+
+- Add `RestorableBottomNavigationBar` and `RestorableNavigationRail`.
+- Make `RestorableScrollState` private.
+- Update example app.
+
 ## [0.0.6]
 
 - Remove `final` from `RestorableTabBar._controller`.
