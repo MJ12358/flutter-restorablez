@@ -14,7 +14,7 @@ dependencies:
     path: ../.
 
 dev_dependencies:
-  dart_lintz: 1.2.3
+  dart_lintz: 1.2.4
   flutter_test:
     sdk: flutter
 

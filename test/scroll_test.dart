@@ -1,112 +1,87 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_restorablez/flutter_restorablez.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  test('placeholder', () {
-    // This is a placeholder to avoid "No tests found" error.
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  const String id = 'test-list';
+  const double offset = 100.0;
+  const String key = 'flutter_restorablez.scroll.$id';
+
+  Widget buildTestList(ScrollController controller) {
+    return ListView.builder(
+      controller: controller,
+      itemCount: 50,
+      itemBuilder: (_, int i) => const SizedBox(height: 50),
+    );
+  }
+
+  testWidgets('restores scroll offset', (WidgetTester tester) async {
+    // Setup WITH saved offset
+    SharedPreferences.setMockInitialValues(<String, Object>{
+      key: offset,
+    });
+
+    ScrollController? controller;
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: RestorableScroll(
+          id: id,
+          builder: (BuildContext context, ScrollController c) {
+            controller = c;
+            return buildTestList(c);
+          },
+        ),
+      ),
+    );
+
+    await tester.pump();
+    await tester.pump();
+    await tester.pump();
+    await tester.pumpAndSettle();
+
+    expect(controller, isNotNull);
+    expect(controller!.offset, closeTo(offset, 0.1));
+  });
+
+  testWidgets('saves scroll offset when scrolling stops',
+      (WidgetTester tester) async {
+    // Setup with EMPTY prefs (critical)
+    SharedPreferences.setMockInitialValues(<String, Object>{});
+
+    ScrollController? controller;
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: RestorableScroll(
+          id: id,
+          builder: (BuildContext context, ScrollController c) {
+            controller = c;
+            return buildTestList(c);
+          },
+        ),
+      ),
+    );
+
+    await tester.pump();
+    await tester.pump();
+    await tester.pumpAndSettle();
+
+    expect(controller, isNotNull);
+    expect(controller!.offset, 0.0);
+
+    // Scroll
+    await tester.drag(find.byType(ListView), const Offset(0, -300));
+    await tester.pumpAndSettle();
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final double? savedOffset = prefs.getDouble(key);
+
+    expect(savedOffset, isNotNull);
+    expect(savedOffset, greaterThan(0));
+    expect(savedOffset, closeTo(controller!.offset, 5.0));
   });
 }
-
-// import 'package:flutter/widgets.dart';
-// import 'package:flutter_restorablez/flutter_restorablez.dart';
-// import 'package:flutter_test/flutter_test.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-
-// /// Scrollable widgets require a Directionality
-// /// widget ancestor to determine the cross-axis
-// /// direction of the scroll view
-// void main() {
-//   const String id = 'test-list';
-//   const double offset = 100.0;
-//   final List<Widget> items = List<Widget>.generate(
-//     50,
-//     (int i) => SizedBox(height: 50, child: Text('Item $i')),
-//   );
-
-//   // Set up mock values BEFORE any test runs
-//   TestWidgetsFlutterBinding.ensureInitialized();
-//   SharedPreferences.setMockInitialValues(
-//     <String, Object>{id: offset},
-//   );
-
-//   testWidgets('restores offset with ListView', (
-//     WidgetTester tester,
-//   ) async {
-//     /// Variable to capture the controller from inside the builder
-//     ScrollController? capturedController;
-
-//     await tester.pumpWidget(
-//       Directionality(
-//         textDirection: TextDirection.ltr,
-//         child: RestorableScroll(
-//           id: id,
-//           builder: (BuildContext context, ScrollController controller) {
-//             // capture controller for later inspection
-//             capturedController = controller;
-//             return ListView.builder(
-//               controller: controller,
-//               itemCount: items.length,
-//               itemBuilder: (_, int index) {
-//                 return items[index];
-//               },
-//             );
-//           },
-//         ),
-//       ),
-//     );
-
-//     /// Allow initState and our postFrameCallback to run
-//     await tester.pump(); // kicks off initState()
-//     await tester.pump(const Duration(milliseconds: 100));
-//     await tester.pumpAndSettle(); // waits for any remaining frames
-
-//     /// Now assert the controller offset
-//     expect(capturedController, isNotNull);
-
-//     /// It should be roughly [offset] (clamped to maxScroll if list shorter)
-//     expect(capturedController!.offset, closeTo(offset, 0.1));
-//   });
-
-//   testWidgets('restores offset with CustomScrollView', (
-//     WidgetTester tester,
-//   ) async {
-//     /// Variable to capture the controller from inside the builder
-//     ScrollController? capturedController;
-
-//     await tester.pumpWidget(
-//       Directionality(
-//         textDirection: TextDirection.ltr,
-//         child: RestorableScroll(
-//           id: id,
-//           builder: (_, ScrollController controller) {
-//             // capture controller for later inspection
-//             capturedController = controller;
-//             return CustomScrollView(
-//               controller: controller,
-//               slivers: <Widget>[
-//                 const SliverToBoxAdapter(
-//                   child: SizedBox(height: 50),
-//                 ),
-//                 SliverList(
-//                   delegate: SliverChildListDelegate(
-//                     items,
-//                   ),
-//                 ),
-//               ],
-//             );
-//           },
-//         ),
-//       ),
-//     );
-
-//     /// Allow initState and our postFrameCallback to run
-//     await tester.pump(); // kicks off initState()
-//     await tester.pump(const Duration(milliseconds: 100));
-//     await tester.pumpAndSettle(); // waits for any remaining frames
-
-//     /// Now assert the controller offset
-//     expect(capturedController, isNotNull);
-
-//     /// It should be roughly [offset] (clamped to maxScroll if list shorter)
-//     expect(capturedController!.offset, closeTo(offset, 0.1));
-//   });
-// }

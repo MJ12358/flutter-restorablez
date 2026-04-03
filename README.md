@@ -2,7 +2,7 @@
 
 ![pub package](https://img.shields.io/pub/v/flutter_restorablez)
 
-Restorable Flutter widgets that automatically save and restore positions for widgets such as scrollables, tab bar and navigation bar.
+Restorable Flutter widgets that automatically save and restore positions for widgets such as scrollables, tab bar, bottom navigation bar and navigation rail.
 
 ## Documentation
 

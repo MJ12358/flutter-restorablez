@@ -1,5 +1,12 @@
 # Flutter Restorablez
 
+## [1.0.0]
+
+- Initial release!
+- Add thumbnail to pub.dev.
+- Update example app.
+- Add some tests.
+
 ## [0.0.9]
 
 - Use named params for typedef.

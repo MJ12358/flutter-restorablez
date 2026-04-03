@@ -117,20 +117,22 @@ class _Portrait extends StatelessWidget {
   final ValueChanged<int> onPageChanged;
   final Widget pageView;
 
+  List<BottomNavigationBarItem> get _navItems => items
+      .map(
+        ((IconData, String) item) => BottomNavigationBarItem(
+          icon: Icon(item.$1),
+          label: item.$2,
+        ),
+      )
+      .toList();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: RestorableBottomNavigationBar(
         id: 'navigation',
         controller: controller,
-        items: items
-            .map(
-              ((IconData, String) item) => BottomNavigationBarItem(
-                icon: Icon(item.$1),
-                label: item.$2,
-              ),
-            )
-            .toList(),
+        items: _navItems,
         onTap: onPageChanged,
       ),
       body: pageView,
@@ -151,6 +153,15 @@ class _Landscape extends StatelessWidget {
   final ValueChanged<int> onPageChanged;
   final Widget pageView;
 
+  List<NavigationRailDestination> get _navItems => items
+      .map(
+        ((IconData, String) item) => NavigationRailDestination(
+          icon: Icon(item.$1),
+          label: Text(item.$2),
+        ),
+      )
+      .toList();
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -158,14 +169,7 @@ class _Landscape extends StatelessWidget {
         RestorableNavigationRail(
           id: 'navigation',
           controller: controller,
-          destinations: items
-              .map(
-                ((IconData, String) item) => NavigationRailDestination(
-                  icon: Icon(item.$1),
-                  label: Text(item.$2),
-                ),
-              )
-              .toList(),
+          destinations: _navItems,
           onDestinationSelected: onPageChanged,
         ),
         const VerticalDivider(thickness: 1, width: 1),
