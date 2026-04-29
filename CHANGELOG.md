@@ -1,5 +1,9 @@
 # Flutter Restorablez
 
+## [1.1.0]
+
+- Add `reset` function to restorables.
+
 ## [1.0.0]
 
 - Initial release!

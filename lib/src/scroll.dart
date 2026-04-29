@@ -25,11 +25,11 @@ class RestorableScroll extends StatefulWidget {
   final RestorableScrollBuilder builder;
 
   @override
-  _RestorableScrollState createState() => _RestorableScrollState();
+  RestorableScrollState createState() => RestorableScrollState();
 }
 
 /// State for [RestorableScroll].
-class _RestorableScrollState extends State<RestorableScroll> {
+class RestorableScrollState extends State<RestorableScroll> {
   late final ScrollController _controller;
   late final SharedPreferences _prefs;
 
@@ -78,6 +78,15 @@ class _RestorableScrollState extends State<RestorableScroll> {
       return;
     }
     _prefs.setDouble(_key, _controller.offset);
+  }
+
+  /// Resets the scroll position to the top (0.0).
+  /// Also resets the saved offset in [SharedPreferences].
+  Future<void> reset() async {
+    await _prefs.setDouble(_key, 0.0);
+    if (_controller.hasClients) {
+      _controller.jumpTo(0.0);
+    }
   }
 
   @override

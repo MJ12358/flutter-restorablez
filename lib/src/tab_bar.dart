@@ -27,7 +27,7 @@ class RestorableTabBar extends StatefulWidget implements PreferredSizeWidget {
   final ValueChanged<int>? onTap;
 
   @override
-  State<RestorableTabBar> createState() => _RestorableTabBarState();
+  State<RestorableTabBar> createState() => RestorableTabBarState();
 
   /// Copied from [TabBar.preferredSize].
   @override
@@ -43,7 +43,7 @@ class RestorableTabBar extends StatefulWidget implements PreferredSizeWidget {
   }
 }
 
-class _RestorableTabBarState extends State<RestorableTabBar> {
+class RestorableTabBarState extends State<RestorableTabBar> {
   late TabController _controller;
   late SharedPreferences _prefs;
 
@@ -97,6 +97,15 @@ class _RestorableTabBarState extends State<RestorableTabBar> {
     widget.onTap?.call(index);
     FocusManager.instance.primaryFocus?.unfocus();
     _setIndex(index);
+  }
+
+  /// Resets the tab bar to the first tab.
+  /// Also resets the saved index in [SharedPreferences].
+  Future<void> reset() async {
+    await _setIndex(0);
+    if (mounted && _controller.length > 0) {
+      _controller.index = 0;
+    }
   }
 
   @override

@@ -6,17 +6,23 @@ import 'package:flutter_restorablez_example/pages/tab_bar_page.dart';
 /// To run the example app, clone/fork the repo!
 
 void main() {
-  runApp(const Main());
+  runApp(Main());
 }
 
 class Main extends StatelessWidget {
-  const Main({super.key});
+  Main({super.key});
+
+  final GlobalKey<RestorableBottomNavigationBarState> _bottomNavKey =
+      GlobalKey<RestorableBottomNavigationBarState>();
+  final GlobalKey<RestorableNavigationRailState> _sideNavKey =
+      GlobalKey<RestorableNavigationRailState>();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Restorablez Example',
       theme: ThemeData(
+        useMaterial3: false,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.blue,
         ),
@@ -24,9 +30,21 @@ class Main extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Flutter Restorablez Example'),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.refresh),
+              onPressed: () {
+                _bottomNavKey.currentState?.reset();
+                _sideNavKey.currentState?.reset();
+              },
+            ),
+          ],
         ),
-        body: const SafeArea(
-          child: _Body(),
+        body: SafeArea(
+          child: _Body(
+            bottomNavKey: _bottomNavKey,
+            sideNavKey: _sideNavKey,
+          ),
         ),
       ),
     );
@@ -34,7 +52,13 @@ class Main extends StatelessWidget {
 }
 
 class _Body extends StatefulWidget {
-  const _Body();
+  const _Body({
+    required this.bottomNavKey,
+    required this.sideNavKey,
+  });
+
+  final GlobalKey<RestorableBottomNavigationBarState> bottomNavKey;
+  final GlobalKey<RestorableNavigationRailState> sideNavKey;
 
   @override
   State<_Body> createState() => _BodyState();
@@ -86,6 +110,7 @@ class _BodyState extends State<_Body> {
         switch (orientation) {
           case Orientation.portrait:
             return _Portrait(
+              navKey: widget.bottomNavKey,
               controller: _pageController,
               items: _items,
               onPageChanged: _onPageChanged,
@@ -93,6 +118,7 @@ class _BodyState extends State<_Body> {
             );
           case Orientation.landscape:
             return _Landscape(
+              navKey: widget.sideNavKey,
               controller: _pageController,
               items: _items,
               onPageChanged: _onPageChanged,
@@ -106,12 +132,14 @@ class _BodyState extends State<_Body> {
 
 class _Portrait extends StatelessWidget {
   const _Portrait({
+    required this.navKey,
     required this.controller,
     required this.items,
     required this.onPageChanged,
     required this.pageView,
   });
 
+  final GlobalKey<RestorableBottomNavigationBarState> navKey;
   final PageController controller;
   final List<(IconData, String)> items;
   final ValueChanged<int> onPageChanged;
@@ -131,6 +159,7 @@ class _Portrait extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: RestorableBottomNavigationBar(
         id: 'navigation',
+        key: navKey,
         controller: controller,
         items: _navItems,
         onTap: onPageChanged,
@@ -142,12 +171,14 @@ class _Portrait extends StatelessWidget {
 
 class _Landscape extends StatelessWidget {
   const _Landscape({
+    required this.navKey,
     required this.controller,
     required this.items,
     required this.onPageChanged,
     required this.pageView,
   });
 
+  final GlobalKey<RestorableNavigationRailState> navKey;
   final PageController controller;
   final List<(IconData, String)> items;
   final ValueChanged<int> onPageChanged;
@@ -168,6 +199,7 @@ class _Landscape extends StatelessWidget {
       children: <Widget>[
         RestorableNavigationRail(
           id: 'navigation',
+          key: navKey,
           controller: controller,
           destinations: _navItems,
           onDestinationSelected: onPageChanged,

@@ -78,10 +78,10 @@ class RestorableNavigationRail extends StatefulWidget {
 
   @override
   State<RestorableNavigationRail> createState() =>
-      _RestorableNavigationRailState();
+      RestorableNavigationRailState();
 }
 
-class _RestorableNavigationRailState extends State<RestorableNavigationRail> {
+class RestorableNavigationRailState extends State<RestorableNavigationRail> {
   late int _selectedIndex;
   late SharedPreferences _prefs;
 
@@ -126,6 +126,16 @@ class _RestorableNavigationRailState extends State<RestorableNavigationRail> {
     });
     _setIndex(index);
     widget.onDestinationSelected?.call(index);
+  }
+
+  /// Resets the navigation rail to the first destination.
+  /// Also resets the saved index in [SharedPreferences].
+  Future<void> reset() async {
+    await _setIndex(0);
+    setState(() {
+      _selectedIndex = 0;
+    });
+    widget.controller.jumpToPage(0);
   }
 
   @override

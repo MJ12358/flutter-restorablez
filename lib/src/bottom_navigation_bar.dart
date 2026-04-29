@@ -48,10 +48,10 @@ class RestorableBottomNavigationBar extends StatefulWidget {
 
   @override
   State<RestorableBottomNavigationBar> createState() =>
-      _RestorableBottomNavigationBarState();
+      RestorableBottomNavigationBarState();
 }
 
-class _RestorableBottomNavigationBarState
+class RestorableBottomNavigationBarState
     extends State<RestorableBottomNavigationBar> {
   late int _currentIndex;
   late SharedPreferences _prefs;
@@ -97,6 +97,16 @@ class _RestorableBottomNavigationBarState
     });
     _setIndex(index);
     widget.onTap?.call(index);
+  }
+
+  /// Resets the bottom navigation bar to the first item.
+  /// Also resets the saved index in [SharedPreferences].
+  Future<void> reset() async {
+    await _setIndex(0);
+    setState(() {
+      _currentIndex = 0;
+    });
+    widget.controller.jumpToPage(0);
   }
 
   @override
