@@ -1,5 +1,9 @@
 # Flutter Restorablez
 
+## [1.2.0]
+
+- Add `didUpdateWidget` to navigation bar/rail.
+
 ## [1.1.0]
 
 - Add `reset` function to restorables.

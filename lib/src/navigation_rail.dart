@@ -97,6 +97,16 @@ class RestorableNavigationRailState extends State<RestorableNavigationRail> {
     _onInit();
   }
 
+  @override
+  void didUpdateWidget(RestorableNavigationRail oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.selectedIndex != _selectedIndex) {
+      setState(() {
+        _selectedIndex = widget.selectedIndex;
+      });
+    }
+  }
+
   Future<void> _onInit() async {
     _prefs = await SharedPreferences.getInstance();
     final int? savedIndex = _getIndex();

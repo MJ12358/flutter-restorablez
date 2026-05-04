@@ -68,6 +68,16 @@ class RestorableBottomNavigationBarState
     _onInit();
   }
 
+  @override
+  void didUpdateWidget(RestorableBottomNavigationBar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.currentIndex != _currentIndex) {
+      setState(() {
+        _currentIndex = widget.currentIndex;
+      });
+    }
+  }
+
   Future<void> _onInit() async {
     _prefs = await SharedPreferences.getInstance();
     final int? savedIndex = _getIndex();
