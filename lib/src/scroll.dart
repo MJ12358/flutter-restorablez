@@ -1,4 +1,4 @@
-part of flutter_restorablez;
+part of '../flutter_restorablez.dart';
 
 /// A function that builds a widget with a [ScrollController].
 typedef RestorableScrollBuilder = Widget Function(

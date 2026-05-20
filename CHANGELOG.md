@@ -1,5 +1,9 @@
 # Flutter Restorablez
 
+## [1.2.1]
+
+- Fix static analysis warning: "part-of directive uses a library name"
+
 ## [1.2.0]
 
 - Add `didUpdateWidget` to navigation bar/rail.

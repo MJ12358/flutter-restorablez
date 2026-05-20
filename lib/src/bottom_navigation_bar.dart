@@ -1,4 +1,4 @@
-part of flutter_restorablez;
+part of '../flutter_restorablez.dart';
 
 /// {@template flutter_restorablez.BottomNavigationBar}
 /// A [BottomNavigationBar] that restores the previously selected item.

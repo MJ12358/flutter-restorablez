@@ -1,4 +1,4 @@
-part of flutter_restorablez;
+part of '../flutter_restorablez.dart';
 
 /// {@template flutter_restorablez.NavigationRail}
 /// A [NavigationRail] that restores the previously selected item.
