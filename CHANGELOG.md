@@ -1,5 +1,9 @@
 # Flutter Restorablez
 
+## [1.2.2]
+
+- Fix some lints.
+
 ## [1.2.1]
 
 - Fix static analysis warning: "part-of directive uses a library name"

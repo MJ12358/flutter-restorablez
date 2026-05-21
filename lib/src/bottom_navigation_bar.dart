@@ -51,6 +51,9 @@ class RestorableBottomNavigationBar extends StatefulWidget {
       RestorableBottomNavigationBarState();
 }
 
+/// {@macro flutter_restorablez.BottomNavigationBar}
+///
+/// The state for [RestorableBottomNavigationBar].
 class RestorableBottomNavigationBarState
     extends State<RestorableBottomNavigationBar> {
   late int _currentIndex;

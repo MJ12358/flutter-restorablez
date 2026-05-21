@@ -28,7 +28,9 @@ class RestorableScroll extends StatefulWidget {
   RestorableScrollState createState() => RestorableScrollState();
 }
 
-/// State for [RestorableScroll].
+/// {@macro flutter_restorablez.Scroll}
+///
+/// The state for [RestorableScroll].
 class RestorableScrollState extends State<RestorableScroll> {
   late final ScrollController _controller;
   late final SharedPreferences _prefs;

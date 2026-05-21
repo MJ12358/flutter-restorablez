@@ -1,3 +1,6 @@
+/// Restorable Flutter widgets. Including scroll, tab bar and navigation bar.
+library;
+
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';

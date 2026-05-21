@@ -43,6 +43,9 @@ class RestorableTabBar extends StatefulWidget implements PreferredSizeWidget {
   }
 }
 
+/// {@macro flutter_restorablez.TabBar}
+///
+/// The state for [RestorableTabBar].
 class RestorableTabBarState extends State<RestorableTabBar> {
   late TabController _controller;
   late SharedPreferences _prefs;

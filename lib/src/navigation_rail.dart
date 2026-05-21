@@ -81,6 +81,9 @@ class RestorableNavigationRail extends StatefulWidget {
       RestorableNavigationRailState();
 }
 
+/// {@macro flutter_restorablez.NavigationRail}
+///
+/// The state for [RestorableNavigationRail].
 class RestorableNavigationRailState extends State<RestorableNavigationRail> {
   late int _selectedIndex;
   late SharedPreferences _prefs;
