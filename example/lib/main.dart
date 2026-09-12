@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_restorablez/flutter_restorablez.dart';
 import 'package:flutter_restorablez_example/pages/scroll_page.dart';
 import 'package:flutter_restorablez_example/pages/tab_bar_page.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// To run the example app, clone/fork the repo!
 
