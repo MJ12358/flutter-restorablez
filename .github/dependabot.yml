@@ -1,0 +1,41 @@
+version: 2
+updates:
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 5
+    groups:
+      monthly-batch:
+        patterns:
+          - "*"
+  # Gradle dependencies
+  - package-ecosystem: "gradle"
+    directory: "/example/android"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 5
+    groups:
+      monthly-batch:
+        patterns:
+          - "*"
+  # Dart packages (pub)
+  - package-ecosystem: "pub"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 5
+    groups:
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+    cooldown:
+      default-days: 7
+      semver-major-days: 30
+      semver-minor-days: 14
+      semver-patch-days: 7
+    ignore:
+      - dependency-name: "*"
+        versions: ["< 1.0.0"]
