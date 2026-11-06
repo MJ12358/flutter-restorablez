@@ -1,6 +1,6 @@
 name: flutter_restorablez
 description: Restorable Flutter widgets. Including scroll, tab bar and navigation bar.
-version: 2.0.0
+version: 2.0.1
 repository: https://github.com/mj12358/flutter-restorablez
 screenshots:
   - description: Flutter Restorablez Thumbnail
